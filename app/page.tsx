@@ -9,6 +9,7 @@ type Student = {
   nis: string;
   nama: string;
   kelas: string;
+  alamat: string;
 };
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
 
     if (error) {
       console.error(error);
+      setLoading(false);
       return;
     }
 
@@ -45,7 +47,10 @@ export default function Home() {
 
     const supabase = createClient();
 
-    const { error } = await supabase.from("students").delete().eq("id", id);
+    const { error } = await supabase
+      .from("students")
+      .delete()
+      .eq("id", id);
 
     if (error) {
       alert("Gagal menghapus data");
@@ -65,7 +70,9 @@ export default function Home() {
           <div>
             <h1 className="text-3xl font-bold">Data Siswa</h1>
 
-            <p className="mt-1 text-gray-600">CRUD Next.js + Supabase & test deploy Netlify or Vercel</p>
+            <p className="mt-1 text-gray-600">
+              CRUD Next.js + Supabase & test deploy Netlify or Vercel
+            </p>
           </div>
 
           <Link
@@ -93,6 +100,8 @@ export default function Home() {
 
                   <th className="p-4 text-left">Kelas</th>
 
+                  <th className="p-4 text-left">Alamat</th>
+
                   <th className="p-4 text-center">Aksi</th>
                 </tr>
               </thead>
@@ -105,6 +114,10 @@ export default function Home() {
                     <td className="p-4">{student.nama}</td>
 
                     <td className="p-4">{student.kelas}</td>
+
+                    <td className="p-4">
+                      {student.alamat || "-"}
+                    </td>
 
                     <td className="p-4">
                       <div className="flex justify-center gap-2">
